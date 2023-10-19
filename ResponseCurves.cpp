@@ -19,14 +19,14 @@ class ResponseCurve
     virtual ~ResponseCurve() {}
 
     virtual double CalculateCurve() = 0;
+    // Consider a Function to build a graph in the UE editor
     void PrintGraph (int dataPoints) 
     {
         std::cout << "Input" << '\t' << "Score" << '\n';
-        for (double i = 0; i < dataPoints; i++)
+        for (double i = 0; i <= dataPoints; i++)
         {
-            std::cout << input << '\t' << CalculateCurve() << '\n';
             input =  i/dataPoints;
-
+            std::cout << input << '\t' << CalculateCurve() << '\n';
         }
     }    
 };
@@ -54,8 +54,7 @@ class LogisticCurve: public ResponseCurve
     double CalculateCurve() 
     {
        
-        score = 
-        // Mslope * pow((input - Xshift), Kexponent) + Yshift;
+        score = Mslope / (1 + exp(-10 * Kexponent * (input - 0.5 - Xshift))) + Yshift;
         score = std::clamp(score, 0.0, 1.0);
         return score;
     }
@@ -77,7 +76,7 @@ class LogitCurve: public ResponseCurve
 
 int main ()
 {
-    PolyCurve TestCurve(-100.0, -1.0, 1.0, 0.0, 1.15);
+    LogisticCurve TestCurve(1, -1.0, 0.7, -0.05, 1.08);
     TestCurve.PrintGraph(10);
     return 0;
 }
