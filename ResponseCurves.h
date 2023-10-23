@@ -1,27 +1,31 @@
 #ifndef RESPONSECURVES_H
 #define RESPONSECURVES_H
 
+#include "CurveProperties.h"
 // Not exposed to the Editor
 // Transforms the value from the knowledge map into a score from 0 to 1
 class ResponseCurve 
 {
-    protected:
+    public:
     double input {};
-    double Mslope {};
-    double Kexponent {};
-    double Xshift {};
-    double Yshift {};
     double score {};
+    CurveProperties curveProperty {};
+    //CurvePresetTypes curvePresetType {};
 
     public:
     ResponseCurve () {}
     // input needs to be normalized with the clamp of its value. receive clamps in constructor and normalize in calculateCurve?
     // or do this like I have it implemented in blueprints currently, outside of the response curve
-    ResponseCurve (double I, double M, double K, double X, double Y) : input (I), Mslope (M), Kexponent(K), Xshift(X), Yshift(Y) {}
+    ResponseCurve (double input) : input (input) {}
+    ResponseCurve (double input,  CurvePresetTypes curvePresetType) : input (input) {
+       // curveProperty = {CurvePresets[curvePresetType]};
+    }
+    ResponseCurve (double input, CurveProperties curveProperty) : input (input), curveProperty(curveProperty) {}
     virtual ~ResponseCurve() {}
     virtual double CalculateCurve() = 0;
     // Consider a Function to build a graph in the UE editor
     void PrintGraph (int dataPoints);
+    void selectPreset (CurvePresetTypes* curvePresetType);
 };
 
 // Formula for linear/polynomial graph.
