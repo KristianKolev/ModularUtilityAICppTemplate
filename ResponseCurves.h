@@ -18,14 +18,14 @@ class ResponseCurve
     // or do this like I have it implemented in blueprints currently, outside of the response curve
     ResponseCurve (double input) : input (input) {}
     ResponseCurve (double input,  CurvePresetTypes curvePresetType) : input (input) {
-       // curveProperty = {CurvePresets[curvePresetType]};
+       curveProperty = CurvePresets.at(curvePresetType);
     }
     ResponseCurve (double input, CurveProperties curveProperty) : input (input), curveProperty(curveProperty) {}
     virtual ~ResponseCurve() {}
     virtual double CalculateCurve() = 0;
     // Consider a Function to build a graph in the UE editor
     void PrintGraph (int dataPoints);
-    void selectPreset (CurvePresetTypes* curvePresetType);
+    void selectPreset (CurvePresetTypes curvePresetType);
 };
 
 // Formula for linear/polynomial graph.
