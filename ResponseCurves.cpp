@@ -25,11 +25,11 @@ void ResponseCurve::PrintGraph(int dataPoints ) {
             std::cout << input << '\t' << CalculateCurve() << '\n';
         }
 };
-/*
-void ResponseCurve::selectPreset(CurvePresetTypes* CurvePresetType) {
-       curveProperty = CurvePresets[*CurvePresetType];
+
+void ResponseCurve::selectPreset(CurvePresetTypes CurvePresetType) {
+       curveProperty = CurvePresets.at(CurvePresetType);
 }
-*/
+
 // Formula for linear/polynomial graph.
 double PolyCurve::CalculateCurve() {
        
@@ -56,7 +56,7 @@ double LogitCurve::CalculateCurve() {
 };
 void selecPreset (CurvePresetTypes CurvePresetType, PolyCurve curve, const std::map<CurvePresetTypes, CurveProperties>& map) 
 {
-       curve.curveProperty = map[CurvePresetType];
+       curve.curveProperty = map.at(CurvePresetType);
        return;
 }
 
