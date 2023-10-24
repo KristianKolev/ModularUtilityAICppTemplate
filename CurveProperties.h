@@ -3,8 +3,8 @@
 #include <map>
 
 struct CurveProperties {
-    double exponent {};     //  K - the logistic growth rate or steepness of the curve.
     double slope {};        //  m - slope-intercept of the curve.
+    double exponent {};     //  K - the logistic growth rate or steepness of the curve.
     double xShift {};       //  b - the y-intercept of the curve.
     double yShift {};       //  c - the x-intercept of the curve.
     double upperClamp {};   //  input values above this limit will all result in the maximal score for this curve

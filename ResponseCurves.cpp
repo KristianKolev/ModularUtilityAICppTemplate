@@ -49,24 +49,28 @@ double LogisticCurve::CalculateCurve() {
 
 // Formula for logit graph. Mathematically, the logit is the inverse of the standard logistic function
 double LogitCurve::CalculateCurve() {
-        //examine that 5 + 0.5 term
-        score = ((curveProperty.slope * ( log10 ((input - curveProperty.xShift)/(1 - input - curveProperty.xShift)) )) / (5 + 0.5 + curveProperty.yShift));
+        // to avoid log10(0)
+        if (input == 0.0 && curveProperty.slope == 1.0)
+               return 0.0; 
+        else if (input == 0.0 && curveProperty.slope == -1.0)
+               return 1.0; 
+        else
+        // to avoid 1/0
+        if (input == 1.0 && curveProperty.slope == 1.0)
+               return 1.0;
+        else if (input == 1.0 && curveProperty.slope == -1.0)
+               return 0.0; 
+        else
+
+        score = (curveProperty.slope * log10 ((input - curveProperty.xShift)/(1 - (input - curveProperty.xShift)))) / 5 + 0.5 + curveProperty.yShift;
         score = std::clamp(score, 0.0, 1.0);
         return score;
 };
-void selecPreset (CurvePresetTypes CurvePresetType, PolyCurve curve, const std::map<CurvePresetTypes, CurveProperties>& map) 
-{
-       curve.curveProperty = map.at(CurvePresetType);
-       return;
-}
 
 int main ()
 {
-   // LogisticCurve TestCurve(100, {-1.0, 0.7, -0.05, 1.08});
-    // TestCurve.PrintGraph(10);
-    PolyCurve newpoly;
-    CurvePresetTypes newtype = linearFall;
-        selecPreset(newtype, newpoly, CurvePresets);
+    PolyCurve TestCurve (0.5, polySlowFall);
+    TestCurve.PrintGraph(10);
   
     return 0;
 }

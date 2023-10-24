@@ -6,7 +6,7 @@
 // Transforms the value from the knowledge map into a score from 0 to 1
 class ResponseCurve 
 {
-    public:
+    protected:
     double input {};
     double score {};
     CurveProperties curveProperty {};
@@ -34,6 +34,8 @@ class PolyCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
+    PolyCurve() {        curveProperty = CurvePresets.at(linearRise);    }
+    PolyCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(linearRise);    }
 };
 
 // Formula for logistic graph. A logistic curve is a common S-shaped curve (sigmoid curve).
@@ -43,6 +45,8 @@ class LogisticCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
+    LogisticCurve() {        curveProperty = CurvePresets.at(logisticRise);    }
+    LogisticCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(logisticRise);    }
 };
 
 // Formula for logit graph. Mathematically, the logit is the inverse of the standard logistic function
@@ -51,6 +55,8 @@ class LogitCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
+    LogitCurve() {        curveProperty = CurvePresets.at(logitRise);    }
+    LogitCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(logitRise);    }
 };
 
 #endif
