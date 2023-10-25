@@ -5,6 +5,7 @@
 //#include "Math/UnrealMathUtility.h"
 
 // Not exposed to the Editor
+// Transforms the value from the knowledge map into a score from 0 to 1
 
 /* // normalize and clamp input
 void ResponseCurve::ResponseCurve(double input, CurveProperties& curveProperty) {
@@ -14,7 +15,7 @@ void ResponseCurve::ResponseCurve(double input, CurveProperties& curveProperty) 
 }
 */
 
-// Transforms the value from the knowledge map into a score from 0 to 1
+// prints curve points to terminal for debugging
 void ResponseCurve::PrintGraph(int dataPoints ) {
 
     // Consider a Function to build a graph in the UE editor
@@ -28,7 +29,7 @@ void ResponseCurve::PrintGraph(int dataPoints ) {
 
 void ResponseCurve::selectPreset(CurvePresetTypes CurvePresetType) {
        curveProperty = CurvePresets.at(CurvePresetType);
-}
+};
 
 // Formula for linear/polynomial graph.
 double PolyCurve::CalculateCurve() {

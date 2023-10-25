@@ -10,16 +10,13 @@ class ResponseCurve
     double input {};
     double score {};
     CurveProperties curveProperty {};
-    //CurvePresetTypes curvePresetType {};
 
     public:
     ResponseCurve () {}
     // input needs to be normalized with the clamp of its value. receive clamps in constructor and normalize in calculateCurve?
     // or do this like I have it implemented in blueprints currently, outside of the response curve
     ResponseCurve (double input) : input (input) {}
-    ResponseCurve (double input,  CurvePresetTypes curvePresetType) : input (input) {
-       curveProperty = CurvePresets.at(curvePresetType);
-    }
+    ResponseCurve (double input,  CurvePresetTypes curvePresetType) : input (input) { curveProperty = CurvePresets.at(curvePresetType); }
     ResponseCurve (double input, CurveProperties curveProperty) : input (input), curveProperty(curveProperty) {}
     virtual ~ResponseCurve() {}
     virtual double CalculateCurve() = 0;
@@ -34,8 +31,8 @@ class PolyCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
-    PolyCurve() {        curveProperty = CurvePresets.at(linearRise);    }
-    PolyCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(linearRise);    }
+    PolyCurve() { curveProperty = CurvePresets.at(linearRise); }
+    PolyCurve(double input) : ResponseCurve(input) { curveProperty = CurvePresets.at(linearRise); }
 };
 
 // Formula for logistic graph. A logistic curve is a common S-shaped curve (sigmoid curve).
@@ -45,8 +42,8 @@ class LogisticCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
-    LogisticCurve() {        curveProperty = CurvePresets.at(logisticRise);    }
-    LogisticCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(logisticRise);    }
+    LogisticCurve() { curveProperty = CurvePresets.at(logisticRise); }
+    LogisticCurve(double input) : ResponseCurve(input) { curveProperty = CurvePresets.at(logisticRise); }
 };
 
 // Formula for logit graph. Mathematically, the logit is the inverse of the standard logistic function
@@ -55,8 +52,8 @@ class LogitCurve: public ResponseCurve
     public:
     using ResponseCurve::ResponseCurve;
     double CalculateCurve();
-    LogitCurve() {        curveProperty = CurvePresets.at(logitRise);    }
-    LogitCurve(double input) : ResponseCurve(input) {        curveProperty = CurvePresets.at(logitRise);    }
+    LogitCurve() { curveProperty = CurvePresets.at(logitRise); }
+    LogitCurve(double input) : ResponseCurve(input) { curveProperty = CurvePresets.at(logitRise); }
 };
 
 #endif
