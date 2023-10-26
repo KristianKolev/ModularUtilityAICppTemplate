@@ -1,6 +1,9 @@
+#ifndef BEHAVIOURSANDACTIONS_H
+#define BEHAVIOURSANDACTIONS_H
 #include <iostream>
 #include <vector>
 #include "CurveProperties.h"
+
 // Exposed to the editor
 //UPROPERTY(BlueprintReadWrite)
 // enum is to be replaced by the user with their own set of custom enums
@@ -17,11 +20,11 @@ enum EResponseCurveType { Poly, Logistic, Logit };
 
 // The consideration together with data needed to score it
 struct Axis {
-    EConsiderations consideration {};
+    EConsiderations Consideration {};
     EResponseCurveType CurveType {};  
     CurveProperties CurveProperty {};
     bool bUsePresetCurve {};
-    CurvePresets {};
+    CurvePresetTypes CurvePropertiesPerest {};
 };
 
 // What are the actions I can take?
@@ -45,16 +48,19 @@ enum EBehaviourPatterns {                        // replaced by user, values are
     Hangry
 };                     
 
-struct BehaviourSet {                           // this could be a map
+struct Behaviour {                           // this could be a map
     EBehaviourPatterns behaviourPattern {};
     std::vector<ActionSet> Actions {};
 };
 
-std::vector<BehaviourSet> AllBehaviours {};
-BehaviourSet ActiveBehaviour {};
+std::vector<Behaviour> AllBehaviours {};
+Behaviour ActiveBehaviour {};
 
 /* 
 This could be a good spot for the knowledge map. Need to consider how to implement it as it is 
 mostly define by the use case and hard to generalize. Each game will have it's own method and data set
 that need to be aggregated and monitored.
 */
+
+std::map<EConsiderations, double> KnowledgeMap {}; 
+#endif
