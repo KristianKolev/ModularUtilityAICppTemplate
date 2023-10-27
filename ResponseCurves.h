@@ -1,9 +1,11 @@
-#ifndef RESPONSECURVES_H
-#define RESPONSECURVES_H
+#pragma once
 
 #include "CurveProperties.h"
 // Not exposed to the Editor
 // Transforms the value from the knowledge map into a score from 0 to 1
+
+enum EResponseCurveType { Poly, Logistic, Logit };
+
 class ResponseCurve 
 {
     protected:
@@ -56,4 +58,4 @@ class LogitCurve: public ResponseCurve
     LogitCurve(double input) : ResponseCurve(input) { curveProperty = CurvePresets.at(logitRise); }
 };
 
-#endif
+

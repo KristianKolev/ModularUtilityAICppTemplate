@@ -1,5 +1,4 @@
-#ifndef BEHAVIOURSANDACTIONS_H
-#define BEHAVIOURSANDACTIONS_H
+#pragma once
 #include <iostream>
 #include <vector>
 #include "CurveProperties.h"
@@ -14,9 +13,6 @@ enum EConsiderations {                           // replaced by user, values are
         TargetsInRange, 
         TimeSinceLastMeal
 };    
-
-// See ResponseCruves.cpp
-enum EResponseCurveType { Poly, Logistic, Logit };
 
 // The consideration together with data needed to score it
 struct Axis {
@@ -53,14 +49,6 @@ struct Behaviour {                           // this could be a map
     std::vector<ActionSet> Actions {};
 };
 
-std::vector<Behaviour> AllBehaviours {};
-Behaviour ActiveBehaviour {};
 
-/* 
-This could be a good spot for the knowledge map. Need to consider how to implement it as it is 
-mostly define by the use case and hard to generalize. Each game will have it's own method and data set
-that need to be aggregated and monitored.
-*/
 
-std::map<EConsiderations, double> KnowledgeMap {}; 
-#endif
+

@@ -1,5 +1,4 @@
-#ifndef CURVEPROPERTIES_H
-#define CURVEPROPERTIES_H
+#pragma once
 #include <map>
 
 struct CurveProperties {
@@ -24,4 +23,4 @@ const std::map<CurvePresetTypes, CurveProperties> CurvePresets = {
     {logitFall, {-1.0, 1.0, 0.0, 0.0, 0.0, 1.0}},
 };
 
-#endif
+
