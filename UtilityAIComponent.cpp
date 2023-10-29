@@ -1,15 +1,16 @@
 #include "UtilityAIComponent.h"
 #include <algorithm>
+#include <vector>
 
 //UFUONCTION(BlueprintReadWrite)
 bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
     bool bBehaviourChanged = false;
 
-    for (auto& i : AllBehaviours) 
+    for (auto& ObservedBehaviour : AllBehaviours) 
     {
-        if ( i.behaviourPattern == InBehaviour)
+        if ( ObservedBehaviour.behaviourPattern == InBehaviour)
         {
-            ActiveBehaviour = i;
+            ActiveBehaviour = ObservedBehaviour;
             bBehaviourChanged = true;
             return bBehaviourChanged;
         }
@@ -17,7 +18,7 @@ bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
     return bBehaviourChanged;
 }
 
-double UtilityAIComponent::CompensationFactorActionScore(double InScore, int NumberOfActions)
+double UtilityAIComponent::CompensationFactorActionScore(double InScore, int NumberOfConsiderations)
 {
     if (InScore == 0)
     {
@@ -25,7 +26,7 @@ double UtilityAIComponent::CompensationFactorActionScore(double InScore, int Num
     }
     else
     {
-        InScore = (((1 - (1.0/NumberOfActions)) * (1.0 - InScore)) * InScore) + InScore;
+        InScore = (((1 - (1.0/NumberOfConsiderations)) * (1.0 - InScore)) * InScore) + InScore;
         return InScore;
     }
     return InScore;
@@ -35,16 +36,17 @@ double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, doubl
 {
     //Consider whether to put this here or inside ResponseCurve Constructor
     // this gets replaced by FMath::GetMappedRangeValueClamped in UE
-    double ClampedInput = std::clamp(InputMap.at(Axis.Consideration), Axis.CurveProperty.lowerClamp, Axis.CurveProperty.upperClamp);
-    double NormalizedInput = ClampedInput/Axis.CurveProperty.upperClamp;
+    double ClampedInput = std::clamp(InputMap.at(Axis.Consideration), Axis.CurveProperty.LowerClamp, Axis.CurveProperty.UpperClamp);
+    double NormalizedInput = ClampedInput/Axis.CurveProperty.UpperClamp;
+    ResponseCurve TransformCurve { NormalizedInput };
     if (Axis.bUsePresetCurve == true)
     {
-        ResponseCurve TransformCurve{ NormalizedInput, Axis.CurvePropertiesPerest };
+        TransformCurve.setCurveProperties(Axis.CurvePropertiesPerest);
     }
     else 
     {
-        ResponseCurve TransformCurve{ NormalizedInput, Axis.CurveProperty };
-    }/*
+        TransformCurve.setCurveProperties(Axis.CurveProperty);
+    }
     switch (Axis.CurveType)
     {
         case Poly:
@@ -55,17 +57,30 @@ double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, doubl
             return TransformCurve.CalculateLogitCurve();    
         default:
             return TransformCurve.CalculatePolyCurve();
-    }*/
+    }
 }
 //UFUONCTION(BlueprintReadWrite)
 double UtilityAIComponent::ScoreActions(std::map<EConsiderations, double> KnowledgeMap, Behaviour )
 {
+    std::vector<double> AllActionScores {};
+    
     for (auto& ObservedAction : ActiveBehaviour.Actions)
     {
+        double AdjustedActionScore {1.0};
+        double ActionScore {1.0};
         for (auto& ObservedConsideration : ObservedAction.Axes)
         {
-            double TransformInputToScore(std::map<EConsiderations, double> InputMap, Axis Axis);
+            ActionScore = ActionScore * TransformInputToScore(KnowledgeMap, ObservedConsideration);
+            if (ActionScore == 0)
+                break;;
         }
+        if (ActionScore != 0)
+        {
+            int NumberOfConsiderations = static_cast<int> (ObservedAction.Axes.size());
+            AdjustedActionScore = CompensationFactorActionScore(ActionScore, NumberOfConsiderations);
+        }
+        AllActionScores.push_back(AdjustedActionScore);
+
     }
     return 0;
 }

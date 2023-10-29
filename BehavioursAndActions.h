@@ -48,7 +48,3 @@ struct Behaviour {                           // this could be a map
     EBehaviourPatterns behaviourPattern {};
     std::vector<ActionSet> Actions {};
 };
-
-
-
-
