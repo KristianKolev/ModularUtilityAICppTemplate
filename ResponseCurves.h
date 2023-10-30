@@ -18,11 +18,11 @@ class ResponseCurve
     // Input needs to be normalized with the clamp of its value. receive clamps in constructor and normalize in calculateCurve?
     // or do this like I have it implemented in blueprints currently, outside of the response Curve
     ResponseCurve(double Input) : Input (Input) { CurveProperty = CurvePresets.at(LinearRise); }
-    ResponseCurve(double Input, CurvePresetTypes CurvePresetType) : Input (Input) { CurveProperty = CurvePresets.at(CurvePresetType); }
+    ResponseCurve(double Input, ECurvePresetTypes CurvePresetType) : Input (Input) { CurveProperty = CurvePresets.at(CurvePresetType); }
     ResponseCurve(double Input, CurveProperties CurveProperty) : Input (Input), CurveProperty(CurveProperty) {}
     // Consider a Function to build a graph in the UE editor
     void PrintGraph(int DataPoints, EResponseCurveType CurveType);
-    void setCurveProperties(CurvePresetTypes InCurvePresetType);
+    void setCurveProperties(ECurvePresetTypes InCurvePresetType);
     void setCurveProperties(CurveProperties InCurveProperty);
     // Formula for linear/polynomial graph.
     double CalculatePolyCurve();

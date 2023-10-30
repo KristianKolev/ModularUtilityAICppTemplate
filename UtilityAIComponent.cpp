@@ -1,7 +1,8 @@
 #include "UtilityAIComponent.h"
 #include <algorithm>
 #include <vector>
-
+// Exposed to the editor
+// UOBJECT - Component
 //UFUONCTION(BlueprintReadWrite)
 bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
     bool bBehaviourChanged = false;
@@ -20,6 +21,7 @@ bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
 
 double UtilityAIComponent::CompensationFactorActionScore(double InScore, int NumberOfConsiderations)
 {
+    // moving this check outside of funtion will reduce calls
     if (InScore == 0)
     {
         return 0;
@@ -60,7 +62,7 @@ double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, doubl
     }
 }
 //UFUONCTION(BlueprintReadWrite)
-double UtilityAIComponent::ScoreActions(std::map<EConsiderations, double> KnowledgeMap, Behaviour )
+double UtilityAIComponent::ScoreAction()
 {
     std::vector<double> AllActionScores {};
     
@@ -70,7 +72,7 @@ double UtilityAIComponent::ScoreActions(std::map<EConsiderations, double> Knowle
         double ActionScore {1.0};
         for (auto& ObservedConsideration : ObservedAction.Axes)
         {
-            ActionScore = ActionScore * TransformInputToScore(KnowledgeMap, ObservedConsideration);
+            ActionScore *= TransformInputToScore(KnowledgeMap, ObservedConsideration);
             if (ActionScore == 0)
                 break;;
         }
@@ -82,10 +84,16 @@ double UtilityAIComponent::ScoreActions(std::map<EConsiderations, double> Knowle
         AllActionScores.push_back(AdjustedActionScore);
 
     }
-    return 0;
+    return AllActionScores;
 }
+EActions UtilityAIComponent::PickBestAction()
+{
 
+}
+void UtilityAIComponent::ExecuteAction()
+{
 
+}
 int main () 
 {
     

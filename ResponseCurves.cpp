@@ -42,7 +42,7 @@ void ResponseCurve::PrintGraph(int DataPoints, EResponseCurveType CurveType )
         }
 };
 
-void ResponseCurve::setCurveProperties(CurvePresetTypes InCurvePresetType) 
+void ResponseCurve::setCurveProperties(ECurvePresetTypes InCurvePresetType) 
 {
        CurveProperty = CurvePresets.at(InCurvePresetType);
 };
@@ -88,7 +88,7 @@ double ResponseCurve::CalculateLogitCurve()
 
 int main ()
 {
-    ResponseCurve TestCurve { 0.5, PolYSlowRise };
+    ResponseCurve TestCurve { 0.5, PolySlowRise };
     TestCurve.PrintGraph(10, Poly);
   
     return 0;

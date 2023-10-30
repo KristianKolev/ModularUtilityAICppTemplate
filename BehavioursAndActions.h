@@ -5,10 +5,10 @@
 
 // Exposed to the editor
 //UPROPERTY(BlueprintReadWrite)
-// enum is to be replaced by the user with their own set of custom enums
+// enum is implementation dependant, to be replaced by the user with their own set of custom enums
 
 // What factors do I need to consider?
-enum EConsiderations {                           // replaced by user, values are placeholder examples
+enum EConsiderations {                           // implementation dependant, replaced by user
         DistanceToTarget, 
         TargetsInRange, 
         TimeSinceLastMeal
@@ -20,11 +20,11 @@ struct Axis {
     EResponseCurveType CurveType {};  
     CurveProperties CurveProperty {};
     bool bUsePresetCurve {};
-    CurvePresetTypes CurvePropertiesPerest {};
+    ECurvePresetTypes CurvePropertiesPerest {};
 };
 
 // What are the actions I can take?
-enum EActions {                                  // replaced by user, values are placeholder examples
+enum EActions {                                  // implementation dependant, replaced by user
     Attack,
     Sneak,
     Flee
@@ -32,19 +32,19 @@ enum EActions {                                  // replaced by user, values are
 
 // Implemented as an array. 
 // What is my behaviour based on the set of actions I can choose from?
-struct ActionSet {                              // this could be a map
+struct ActionSet {                              
     EActions Action {};
     std::vector<Axis> Axes {};
 };
 
 // The different types of behaviour I can exhibit.
-enum EBehaviourPatterns {                        // replaced by user, values are placeholder examples
+enum EBehaviourPatterns {                        // implementation dependant, replaced by user
     Satietad,
     Content,
     Hangry
 };                     
 
-struct Behaviour {                           // this could be a map
+struct Behaviour {                           
     EBehaviourPatterns behaviourPattern {};
     std::vector<ActionSet> Actions {};
 };
