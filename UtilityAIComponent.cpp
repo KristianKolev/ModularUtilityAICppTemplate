@@ -86,9 +86,15 @@ double UtilityAIComponent::ScoreAction()
     }
     return AllActionScores;
 }
-EActions UtilityAIComponent::PickBestAction()
+EActions UtilityAIComponent::PickBestAction(std::vector<double> AllScores)
 {
-
+    int TopScorePosition{0};
+    for (int i : AllScores)
+    {
+        if (AllScores[i] > AllScores[TopScorePosition])
+        TopScorePosition = i;
+    }
+    return ActiveBehaviour.Actions.at(TopScorePosition);
 }
 void UtilityAIComponent::ExecuteAction()
 {

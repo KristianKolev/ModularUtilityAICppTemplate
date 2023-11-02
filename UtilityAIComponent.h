@@ -22,7 +22,7 @@ class UtilityAIComponent
     // modify to work with targets - same action evaluated multiple times for each target (external array of possible targets)
     // maybe trough if statement that checks target == NULL?
     double ScoreAction();
-    EActions PickBestAction();
+    EActions PickBestAction(std::vector<double> AllScores);
     void ExecuteAction();
     bool SwitchBehaviour(EBehaviourPatterns InBehaviour);                           //Logic and conditions to switch are implementation dependant. Should be added inside this component.
     double CompensationFactorActionScore(double InScore, int NumberOfActions);
