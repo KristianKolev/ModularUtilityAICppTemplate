@@ -2,6 +2,20 @@
 #include "ResponseCurves.h"
 #include "BehavioursAndActions.h"
 #include "CurveProperties.h"
+
+//get reference to this from project
+//NPCController = AAIController ;
+
+class NPCController
+{
+public:
+    std::string Name = "MyNPC";
+    void RunActionAttack();
+    void RunActionSneak();
+    void RunActionFlee();
+    void RunActionIdle();
+};
+
 // Exposed to the editor
 // UOBJECT - Component
 class UtilityAIComponent 
@@ -21,9 +35,12 @@ class UtilityAIComponent
     double TransformInputToScore(std::map<EConsiderations, double> InputMap, Axis Axis);
     // modify to work with targets - same action evaluated multiple times for each target (external array of possible targets)
     // maybe trough if statement that checks target == NULL?
-    double ScoreAction();
+    std::vector<double> ScoreAction();
     EActions PickBestAction(std::vector<double> AllScores);
-    void ExecuteAction();
+    // 
+    void ExecuteAction(NPCController InController, EActions InAction);
+    void ScorePickAndExecuteAction();
     bool SwitchBehaviour(EBehaviourPatterns InBehaviour);                           //Logic and conditions to switch are implementation dependant. Should be added inside this component.
     double CompensationFactorActionScore(double InScore, int NumberOfActions);
 };
+

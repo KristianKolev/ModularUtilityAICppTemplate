@@ -62,9 +62,9 @@ double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, doubl
     }
 }
 //UFUONCTION(BlueprintReadWrite)
-double UtilityAIComponent::ScoreAction()
+std::vector<double> UtilityAIComponent::ScoreAction()
 {
-    std::vector<double> AllActionScores {};
+    std::vector<double> ConsiderationScores {};
     
     for (auto& ObservedAction : ActiveBehaviour.Actions)
     {
@@ -81,11 +81,12 @@ double UtilityAIComponent::ScoreAction()
             int NumberOfConsiderations = static_cast<int> (ObservedAction.Axes.size());
             AdjustedActionScore = CompensationFactorActionScore(ActionScore, NumberOfConsiderations);
         }
-        AllActionScores.push_back(AdjustedActionScore);
+        ConsiderationScores.push_back(AdjustedActionScore);
 
     }
-    return AllActionScores;
+    return ConsiderationScores;
 }
+
 EActions UtilityAIComponent::PickBestAction(std::vector<double> AllScores)
 {
     int TopScorePosition{0};
@@ -94,14 +95,50 @@ EActions UtilityAIComponent::PickBestAction(std::vector<double> AllScores)
         if (AllScores[i] > AllScores[TopScorePosition])
         TopScorePosition = i;
     }
-    return ActiveBehaviour.Actions.at(TopScorePosition);
+    return ActiveBehaviour.Actions.at(TopScorePosition).Action;
 }
-void UtilityAIComponent::ExecuteAction()
-{
-
-}
-int main () 
+//calls function logic on the npc controller
+void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAction)
 {
     
-    return 0;
+    switch (InAction)
+    {
+    case Attack: 
+        InController.RunActionAttack();
+        break;
+    case Sneak:
+        InController.RunActionSneak();
+        break;
+    case Flee:
+        InController.RunActionFlee();
+        break;
+    default:
+        InController.RunActionIdle();
+        break;
+    }
+}
+void UtilityAIComponent::ScorePickAndExecuteAction()
+{
+    std::vector<double> ActionScores = ScoreAction();
+    EActions BestAction = PickBestAction(ActionScores);
+   // ExecuteAction(, BestAction);
+}
+
+
+
+void NPCController::RunActionAttack()
+{
+    std::cout << "I am attacking!";
+}
+void NPCController::RunActionSneak()
+{
+    std::cout << "I am sneaking!";
+}
+void NPCController::RunActionFlee()
+{
+    std::cout << "I am fleeing!";
+}
+void NPCController::RunActionIdle()
+{
+    std::cout << "I do nothing!";
 }
