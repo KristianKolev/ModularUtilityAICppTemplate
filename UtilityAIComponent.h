@@ -39,7 +39,7 @@ class UtilityAIComponent
     EActions PickBestAction(std::vector<double> AllScores);
     // 
     void ExecuteAction(NPCController InController, EActions InAction);
-    void ScorePickAndExecuteAction();
+    void ScorePickAndExecuteAction(NPCController InController);
     bool SwitchBehaviour(EBehaviourPatterns InBehaviour);                           //Logic and conditions to switch are implementation dependant. Should be added inside this component.
     double CompensationFactorActionScore(double InScore, int NumberOfActions);
 };

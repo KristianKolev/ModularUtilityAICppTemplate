@@ -117,11 +117,11 @@ void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAc
         break;
     }
 }
-void UtilityAIComponent::ScorePickAndExecuteAction()
+void UtilityAIComponent::ScorePickAndExecuteAction(NPCController InController)
 {
     std::vector<double> ActionScores = ScoreAction();
     EActions BestAction = PickBestAction(ActionScores);
-   // ExecuteAction(, BestAction);
+    ExecuteAction(InController, BestAction);
 }
 
 
