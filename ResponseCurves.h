@@ -8,6 +8,7 @@ enum EResponseCurveType { Poly, Logistic, Logit };
 
 class ResponseCurve 
 {
+<<<<<<< HEAD
     private:
     double Input {};
     double Score {};
@@ -31,4 +32,26 @@ class ResponseCurve
     double CalculateLogisticCurve();
     // Formula for logit graph. Mathematically, the logit is the inverse of the standard logistic function
     double CalculateLogitCurve();
+=======
+    public:
+    double input {};
+    double score {};
+    CurveProperties curveProperty {};
+    //CurvePresetTypes curvePresetType {};
+
+    public:
+    ResponseCurve () {}
+    // input needs to be normalized with the clamp of its value. receive clamps in constructor and normalize in calculateCurve?
+    // or do this like I have it implemented in blueprints currently, outside of the response curve
+    ResponseCurve (double input) : input (input) {}
+    ResponseCurve (double input,  CurvePresetTypes curvePresetType) : input (input) {
+       curveProperty = CurvePresets.at(curvePresetType);
+    }
+    ResponseCurve (double input, CurveProperties curveProperty) : input (input), curveProperty(curveProperty) {}
+    virtual ~ResponseCurve() {}
+    virtual double CalculateCurve() = 0;
+    // Consider a Function to build a graph in the UE editor
+    void PrintGraph (int dataPoints);
+    void selectPreset (CurvePresetTypes curvePresetType);
+>>>>>>> e84c3b2d08233d7664f1705257443c2ed67f8426
 };
