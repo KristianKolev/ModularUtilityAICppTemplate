@@ -44,4 +44,3 @@ class UtilityAIComponent
     bool SwitchBehaviour(EBehaviourPatterns InBehaviour);                           //Logic and conditions to switch are implementation dependant. Should be added inside this component.
     double CompensationFactorActionScore(double InScore, int NumberOfActions);
 };
-
