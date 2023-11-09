@@ -1,6 +1,7 @@
 #include "UtilityAIComponent.h"
 #include <algorithm>
 #include <vector>
+
 // Exposed to the editor
 // UOBJECT - Component
 //UFUONCTION(BlueprintReadWrite)
@@ -21,17 +22,8 @@ bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
 
 double UtilityAIComponent::CompensationFactorActionScore(double InScore, int NumberOfConsiderations)
 {
-    // moving this check outside of funtion will reduce calls
-    if (InScore == 0)
-    {
-        return 0;
-    }
-    else
-    {
         InScore = (((1 - (1.0/NumberOfConsiderations)) * (1.0 - InScore)) * InScore) + InScore;
         return InScore;
-    }
-    return InScore;
 }
 
 double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, double> InputMap, Axis Axis)
@@ -56,43 +48,49 @@ double UtilityAIComponent::TransformInputToScore(std::map<EConsiderations, doubl
         case Logistic:
             return TransformCurve.CalculateLogisticCurve();
         case Logit:
-            return TransformCurve.CalculateLogitCurve();    
+            return TransformCurve.CalculateLogitCurve();
         default:
             return TransformCurve.CalculatePolyCurve();
     }
 }
-//UFUONCTION(BlueprintReadWrite)
-std::vector<double> UtilityAIComponent::ScoreAction()
+//UFUONCTION(BlueprintCallable)
+double UtilityAIComponent::ScoreConsiderations(std::vector<Axis> InConsiderations)
 {
-    std::vector<double> ConsiderationScores {};
+    double ActionScore{ 1.0 };
+    for (auto& ObservedConsideration : InConsiderations)
+    {
+        ActionScore *= TransformInputToScore(KnowledgeMap, ObservedConsideration);
+        if (ActionScore == 0)
+            return ActionScore;
+    }
+    return ActionScore;
+}
+
+std::vector<double> UtilityAIComponent::ScoreActions()
+{
+    std::vector<double> ActionScores{};
     
     for (auto& ObservedAction : ActiveBehaviour.Actions)
     {
-        double AdjustedActionScore {1.0};
-        double ActionScore {1.0};
-        for (auto& ObservedConsideration : ObservedAction.Axes)
-        {
-            ActionScore *= TransformInputToScore(KnowledgeMap, ObservedConsideration);
-            if (ActionScore == 0)
-                break;;
-        }
+        double AdjustedActionScore {0.0};
+        double ActionScore = ScoreConsiderations(ObservedAction.Axes);
         if (ActionScore != 0)
         {
             int NumberOfConsiderations = static_cast<int> (ObservedAction.Axes.size());
             AdjustedActionScore = CompensationFactorActionScore(ActionScore, NumberOfConsiderations);
         }
-        ConsiderationScores.push_back(AdjustedActionScore);
+        ActionScores.push_back(AdjustedActionScore);
 
     }
-    return ConsiderationScores;
+    return ActionScores;
 }
 
-EActions UtilityAIComponent::PickBestAction(std::vector<double> AllScores)
+EActions UtilityAIComponent::PickBestAction(std::vector<double> InScores)
 {
     int TopScorePosition{0};
-    for (int i : AllScores)
+    for (int i = 0; i < InScores.size(); i++)
     {
-        if (AllScores[i] > AllScores[TopScorePosition])
+        if (InScores[i] > InScores[TopScorePosition])
         TopScorePosition = i;
     }
     return ActiveBehaviour.Actions.at(TopScorePosition).Action;
@@ -119,13 +117,10 @@ void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAc
 }
 void UtilityAIComponent::ScorePickAndExecuteAction(NPCController InController)
 {
-    std::vector<double> ActionScores = ScoreAction();
+    std::vector<double> ActionScores = ScoreActions();
     EActions BestAction = PickBestAction(ActionScores);
     ExecuteAction(InController, BestAction);
 }
-
-
-
 void NPCController::RunActionAttack()
 {
     std::cout << "I am attacking!";
