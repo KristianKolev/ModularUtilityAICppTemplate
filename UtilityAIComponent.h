@@ -3,7 +3,7 @@
 #include "BehavioursAndActions.h"
 #include "CurveProperties.h"
 
-//get reference to this from project
+//get reference to this from project. Exists here for testing purposes
 //NPCController = AAIController ;
 
 class NPCController
@@ -35,7 +35,8 @@ class UtilityAIComponent
     double TransformInputToScore(std::map<EConsiderations, double> InputMap, Axis Axis);
     // modify to work with targets - same action evaluated multiple times for each target (external array of possible targets)
     // maybe trough if statement that checks target == NULL?
-    std::vector<double> ScoreAction();
+    double ScoreConsiderations(std::vector<Axis> InConsiderations);
+    std::vector<double> ScoreActions();
     EActions PickBestAction(std::vector<double> AllScores);
     // 
     void ExecuteAction(NPCController InController, EActions InAction);
