@@ -15,8 +15,6 @@ class ResponseCurve
 
     public:
     ResponseCurve () { CurveProperty = CurvePresets.at(LinearRise); }
-    // Input needs to be normalized with the clamp of its value. receive clamps in constructor and normalize in calculateCurve?
-    // or do this like I have it implemented in blueprints currently, outside of the response Curve
     ResponseCurve(double Input) : Input (Input) { CurveProperty = CurvePresets.at(LinearRise); }
     ResponseCurve(double Input, ECurvePresetTypes CurvePresetType) : Input (Input) { CurveProperty = CurvePresets.at(CurvePresetType); }
     ResponseCurve(double Input, CurveProperties CurveProperty) : Input (Input), CurveProperty(CurveProperty) {}

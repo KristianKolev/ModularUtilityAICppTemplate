@@ -14,7 +14,7 @@ enum EConsiderations {                           // implementation dependant, re
         TimeSinceLastMeal
 };    
 
-// The consideration together with data needed to score it
+// The consideration together with data needed to builds the scoring curve
 struct Axis {
     EConsiderations Consideration {};
     EResponseCurveType CurveType {};  
@@ -31,19 +31,19 @@ enum EActions {                                  // implementation dependant, re
 };                               
 
 // Implemented as an array. 
-// What is my behaviour based on the set of actions I can choose from?
+// Which actions come together to define a behaviour
 struct ActionSet {                              
     EActions Action {};
     std::vector<Axis> Axes {};
 };
 
-// The different types of behaviour I can exhibit.
+// The different types of behaviours I can exhibit.
 enum EBehaviourPatterns {                        // implementation dependant, replaced by user
     Satietad,
     Content,
     Hangry
 };                     
-
+// A pairing of a behaviour to a set of actions.
 struct Behaviour {                           
     EBehaviourPatterns behaviourPattern {};
     std::vector<ActionSet> Actions {};
