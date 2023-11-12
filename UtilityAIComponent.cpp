@@ -53,15 +53,34 @@ double UtilityAIComponent::ScoreConsiderations(std::vector<Axis> InConsideration
     AdjustedActionScore = CompensationFactorActionScore(ActionScore, NumberOfConsiderations);
     return AdjustedActionScore;
 }
-
-std::vector<double> UtilityAIComponent::ScoreActions()
+// rework to score and pick best target. Do this inside the loop instead of new loop in new function
+std::vector<double> UtilityAIComponent::ScoreTargets(std::vector<NPCTarget> InTargets, std::vector<Axis> InConsiderations)
+{
+    std::vector<double> TargetScores{};
+    for (auto& ObservedTarget : InTargets)
+    {
+        double TargetScore = ScoreConsiderations(InConsiderations);
+        TargetScores.push_back(TargetScore);
+    }
+    return TargetScores;
+}
+// rework to score and pick best action. Do this inside the loop instead of new loop in new function
+std::vector<double> UtilityAIComponent::ScoreActions(std::vector<ActionSet> InActions)
 {
     std::vector<double> ActionScores{};
     
-    for (auto& ObservedAction : ActiveBehaviour.Actions)
+    for (auto& ObservedAction : InActions)
     {
-        double ActionScore = ScoreConsiderations(ObservedAction.Axes);
-        ActionScores.push_back(ActionScore);
+        if (ObservedAction.bTargeted = true)
+        {
+            std::vector<double> TargetScores = ScoreTargets(PossibleTargets, ObservedAction.Axes);
+            ActionScores.insert(end(ActionScores), begin(TargetScores), end(TargetScores));
+        }
+        else 
+        {
+            double ActionScore = ScoreConsiderations(ObservedAction.Axes);
+            ActionScores.push_back(ActionScore);
+        }
     }
     return ActionScores;
 }
@@ -98,7 +117,7 @@ void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAc
 }
 void UtilityAIComponent::ScorePickAndExecuteAction(NPCController InController)
 {
-    std::vector<double> ActionScores = ScoreActions();
+    std::vector<double> ActionScores = ScoreActions(ActiveBehaviour.Actions);
     EActions BestAction = PickBestAction(ActionScores);
     ExecuteAction(InController, BestAction);
 }
@@ -133,9 +152,18 @@ bool UtilityAIComponent::SwitchBehaviour(EBehaviourPatterns InBehaviour) {
 
             }
         }
+        return bBehaviourChanged;
     }
     else
     {
         return bBehaviourChanged;
     }
+}
+
+int main()
+{
+    ResponseCurve TestCurve{ 0.5, PolySlowRise };
+    TestCurve.PrintGraph(10, Poly);
+
+    return 0;
 }

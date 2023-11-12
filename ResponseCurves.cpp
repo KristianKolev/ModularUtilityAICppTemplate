@@ -85,11 +85,3 @@ double ResponseCurve::CalculateLogitCurve()
     Score = std::clamp(Score, 0.0, 1.0);
     return Score;
 };
-
-int main()
-{
-    ResponseCurve TestCurve{ 0.5, PolySlowRise };
-    TestCurve.PrintGraph(10, Poly);
-
-    return 0;
-}

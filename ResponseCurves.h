@@ -2,10 +2,9 @@
 
 #include "CurveProperties.h"
 // Not exposed to the Editor
-// Transforms the value from the knowledge map into a score from 0 to 1
 
 enum EResponseCurveType { Poly, Logistic, Logit };
-
+// Builds a Poly, Logistic or Logit curve to convert a normalized input value from the knowledge map to a score from 0 to 1 
 class ResponseCurve 
 {
     private:

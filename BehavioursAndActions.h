@@ -35,6 +35,7 @@ enum EActions {                                  // implementation dependant, re
 struct ActionSet {                              
     EActions Action {};
     std::vector<Axis> Axes {};
+    bool bTargeted {};
 };
 
 // The different types of behaviours I can exhibit.
