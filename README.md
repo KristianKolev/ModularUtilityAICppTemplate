@@ -13,9 +13,9 @@ https://www.gdcvault.com/play/1021848/Building-a-Better-Centaur-AI
 ## What is Utility AI
 *High level*  
 
-Utility AI is a decision making system for NPCs in video games and simulations. It is more advanced than state machines and behavioural trees and similar to GOAP.
-Each NPC has a set of **Behaviours** they can exhibit and can choose their **active behaviour** based on some user defined environmental factors.
-Each behaviour has a set of possible **Actions** that the NPC can choose to take based on which is best in the currecnt situation i. e. has the highest score.
-To get a score each action has a set of **Considerations** which get evaluated. Each consideration resides in an **Axis** which stores the value of the consideration 
-and has data on how to convert and score of that value from 0 to 1. The conversion happens by passing the input trough a **Response Curve** which can be
-linear, polynomial, logistic or logit.
+Utility AI is a decision making system for NPCs in video games and simulations. It is more advanced than state machines and behavioural trees and similar to GOAP.  
+Each NPC has a set of **Behaviours** they can exhibit and can choose their **active behaviour** based on some user defined environmental factors.  
+Each behaviour has a set of possible **Actions** that the NPC can choose to take based on which is best in the currecnt situation i. e. has the highest score.  
+To get a score each action has a set of **Considerations** which get evaluated.  
+Each consideration resides in an **Axis** which stores the value of the consideration and has data on how to convert and score of that value from 0 to 1.  
+The conversion happens by passing the input trough a **Response Curve** which can be linear, polynomial, logistic or logit.
