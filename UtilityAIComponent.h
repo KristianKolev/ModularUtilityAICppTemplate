@@ -10,7 +10,7 @@ class NPCController
 {
 public:
     std::string Name = "MySelf";
-    void RunActionAttack();
+    void RunActionAttack(NPCTarget* InTarget);
     void RunActionSneak();
     void RunActionFlee();
     void RunActionIdle();
@@ -19,6 +19,7 @@ public:
 //get reference to this from project. Exists here for testing purposes
 class NPCTarget
 {
+public:
     std::string Name = "MyTarget";
     std::map<EConsiderations, double> KnowledgeMap{};
 };
@@ -32,6 +33,8 @@ private:
     std::vector<Behaviour> AllBehaviours {};
     Behaviour ActiveBehaviour {};
     std::vector<NPCTarget> PossibleTargets{};
+    //This is something that should maybe be held inside the knowledge map
+    NPCTarget* BestTarget{};
 
 
 public:
@@ -50,7 +53,7 @@ public:
     double CompensationFactorActionScore(double InScore, int NumberOfActions);
     // Multiplies the scores for all considerations inside an action and apply a compensation factor
     double ScoreConsiderations(std::vector<Axis> InConsiderations);
-    std::vector<double> ScoreTargets(std::vector<NPCTarget> InTargets, std::vector<Axis> InConsiderations);
+    double ScoreTargets(std::vector<NPCTarget> InTargets, std::vector<Axis> InConsiderations, NPCTarget* OutTarget);
     // modify to work with targets - same action evaluated multiple times for each target (external array of possible targets)
     // maybe trough if statement that checks target == NULL?
     //Collects the adjusted scores for all actions
@@ -59,6 +62,8 @@ public:
     EActions PickBestAction(std::vector<double> AllScores);
     //calls function logic on the npc controller
     void ExecuteAction(NPCController InController, EActions InAction);
+    //logic replaced based on custom implementation
+    void UpdateKnowledgeMap(std::map<EConsiderations, double> OutKnowledgeMap);
     //Combines the other methods together 
     void ScorePickAndExecuteAction(NPCController InController);
     bool SwitchBehaviour(EBehaviourPatterns InBehaviour);                           //Logic and conditions to switch are implementation dependant.

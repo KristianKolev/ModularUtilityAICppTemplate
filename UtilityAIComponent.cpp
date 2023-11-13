@@ -54,15 +54,21 @@ double UtilityAIComponent::ScoreConsiderations(std::vector<Axis> InConsideration
     return AdjustedActionScore;
 }
 // rework to score and pick best target. Do this inside the loop instead of new loop in new function
-std::vector<double> UtilityAIComponent::ScoreTargets(std::vector<NPCTarget> InTargets, std::vector<Axis> InConsiderations)
+double UtilityAIComponent::ScoreTargets(std::vector<NPCTarget> InTargets, std::vector<Axis> InConsiderations, NPCTarget* OutTarget)
 {
     std::vector<double> TargetScores{};
+    double BestScore{ 0.0 };
     for (auto& ObservedTarget : InTargets)
     {
         double TargetScore = ScoreConsiderations(InConsiderations);
         TargetScores.push_back(TargetScore);
+        if (BestScore < TargetScore)
+        {
+            BestScore = TargetScore;
+            ObservedTarget = *OutTarget;
+        }
     }
-    return TargetScores;
+    return BestScore;
 }
 // rework to score and pick best action. Do this inside the loop instead of new loop in new function
 std::vector<double> UtilityAIComponent::ScoreActions(std::vector<ActionSet> InActions)
@@ -73,8 +79,12 @@ std::vector<double> UtilityAIComponent::ScoreActions(std::vector<ActionSet> InAc
     {
         if (ObservedAction.bTargeted = true)
         {
-            std::vector<double> TargetScores = ScoreTargets(PossibleTargets, ObservedAction.Axes);
+            /*
+            std::vector<double> TargetScores = ScoreTargets(PossibleTargets, ObservedAction.Axes, BestTarget);
             ActionScores.insert(end(ActionScores), begin(TargetScores), end(TargetScores));
+            */
+            double TargetScores = ScoreTargets(PossibleTargets, ObservedAction.Axes, BestTarget);
+            ActionScores.push_back(TargetScores);
         }
         else 
         {
@@ -102,7 +112,7 @@ void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAc
     switch (InAction)
     {
     case Attack: 
-        InController.RunActionAttack();
+        InController.RunActionAttack(BestTarget);
         break;
     case Sneak:
         InController.RunActionSneak();
@@ -115,15 +125,22 @@ void UtilityAIComponent::ExecuteAction(NPCController InController, EActions InAc
         break;
     }
 }
+
+void UtilityAIComponent::UpdateKnowledgeMap(std::map<EConsiderations, double> OutKnowledgeMap)
+{
+    OutKnowledgeMap[TargetsInRange] = 3;
+}
+
 void UtilityAIComponent::ScorePickAndExecuteAction(NPCController InController)
 {
+    UpdateKnowledgeMap(KnowledgeMap);
     std::vector<double> ActionScores = ScoreActions(ActiveBehaviour.Actions);
     EActions BestAction = PickBestAction(ActionScores);
     ExecuteAction(InController, BestAction);
 }
-void NPCController::RunActionAttack()
+void NPCController::RunActionAttack(NPCTarget* InTarget)
 {
-    std::cout << "I am attacking!";
+    std::cout << "I am attacking" << InTarget->Name << "!";
 }
 void NPCController::RunActionSneak()
 {
