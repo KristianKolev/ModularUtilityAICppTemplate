@@ -46,6 +46,6 @@ Behaviour: Action [consideration (CurveType, UpperLimit)]
 To break this down, the lion has eaten recently, but might attempt to sneak in and snatch a piece of meat if there aren't too many hyenas and they arent too far away.
 The flee action has basically the same considerations, but in reverse. So sneak scores high when flee scores low and vice versa.  
 
-> Content: Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Flee [TargetsInRange (LinearRise, 6), DistanceToTarget(PolyRise, 200), TimeSinceLastMeal (LinearFall, 60]
+> Content: Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Flee [TargetsInRange (LinearRise, 6), DistanceToTarget(PolyRise, 200), TimeSinceLastMeal (LinearFall, 60]  
 > Hangry: Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60]
 
