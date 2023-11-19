@@ -41,11 +41,23 @@ In `enum EConsiderations` add in the names of your considerations.
 In `struct Axis` pair a consideration with properties for the response curve.  
 Behaviour: Action [consideration (CurveType, UpperLimit)]  
 
-> Staiated: Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Flee [TargetsInRange (LinearRise, 6), DistanceToTarget(PolyRise, 200), TimeSinceLastMeal (LinearFall, 60]
+> Staiated:  
+> Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60]  
+> Flee  [TargetsInRange (LinearRise, 6), DistanceToTarget(PolyRise, 200), TimeSinceLastMeal (LinearFall, 60]  
  
 To break this down, the lion has eaten recently, but might attempt to sneak in and snatch a piece of meat if there aren't too many hyenas and they arent too far away.
 The flee action has basically the same considerations, but in reverse. So sneak scores high when flee scores low and vice versa.  
 
-> Content: Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Flee [TargetsInRange (LinearRise, 6), DistanceToTarget(PolyRise, 200), TimeSinceLastMeal (LinearFall, 60]  
-> Hangry: Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60], Sneak [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 60]
+> 'Content:  
+> Attack [TargetsInRange (LinearFall, 3), DistanceToTarget(PolyFall, 200), TimeSinceLastMeal (LinearRise, 600]  
+> Sneak  [TargetsInRange (LinearFall, 6), DistanceToTarget(PolyFall, 500), TimeSinceLastMeal (LinearRise, 600]  
+> Flee   [TargetsInRange (LinearRise, 9), DistanceToTarget(PolyRise, 500), TimeSinceLastMeal (LinearFall, 600]  
+
+It's been a while since his last meal, but the lion isn't hungry quite yet. He might attack into a favourable position, might attempt to sneak into an unfavourable position (to snatch a piece of meat while the hyenas are distracted) or else flee and try another spot.
+
+> 'Hangry:  
+> Attack [TargetsInRange (LinearFall, 6), DistanceToTarget(PolyFall, 600), TimeSinceLastMeal (LinearRise, 1440]  
+> Sneak  [TargetsInRange (LinearFall, 9), DistanceToTarget(PolyFall, 700), TimeSinceLastMeal (LinearRise, 1440]  
+
+The lion is starving and aggressive. He is ready to attack into an unfavourable position and will try to sneak into any spot where he knows he cannot win. 
 
