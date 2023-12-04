@@ -1,4 +1,4 @@
-# ModularUtilityAIForUnrealEngine5
+# ModularUtilityAICppTemplate
 
 This is the backbone code for creating a video game Utility AI written in vanilla C++.  
 It is intended to be used as a starting point and adapted for implementation in an Unreal Engine 5 project. However, they way it is written allows for easy protability to other frameworks if desired.   
